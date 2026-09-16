@@ -4,7 +4,9 @@ from freelance_agent.workers.manager import WorkerManager
 
 
 class Orchestrator:
-    def __init__(self, state: InMemoryState | None = None, workers: WorkerManager | None = None) -> None:
+    def __init__(
+        self, state: InMemoryState | None = None, workers: WorkerManager | None = None
+    ) -> None:
         self.state = state or InMemoryState()
         self.workers = workers or WorkerManager()
 
@@ -23,7 +25,11 @@ class Orchestrator:
             self.state.transition(job_id, JobState.RUNNING)
             result = self.workers.execute(request)
             self.state.checkpoint(
-                Checkpoint(job_id=job_id, stage=result.checkpoint or result.status, data=result.metadata)
+                Checkpoint(
+                    job_id=job_id,
+                    stage=result.checkpoint or result.status,
+                    data=result.metadata,
+                )
             )
             return result
         except Exception as exc:
