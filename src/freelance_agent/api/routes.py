@@ -21,7 +21,9 @@ def create_job(task: str, x_api_key: str = Header(default="")) -> dict[str, obje
 
 
 @router.post("/jobs/{job_id}/run")
-def run_job(job_id: str, request: WorkRequest, x_api_key: str = Header(default="")) -> dict[str, object]:
+def run_job(
+    job_id: str, request: WorkRequest, x_api_key: str = Header(default="")
+) -> dict[str, object]:
     if x_api_key != "change-me":
         raise HTTPException(status_code=401, detail="invalid api key")
     if request.job_id != job_id:
